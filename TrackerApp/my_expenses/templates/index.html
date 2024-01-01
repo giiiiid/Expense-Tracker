@@ -1,1 +1,3 @@
-Homepage
+{% for i in expenses %}
+{{i.expense_type}} - {{i.amount}}
+{% endfor %}
