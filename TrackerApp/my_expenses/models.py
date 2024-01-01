@@ -26,3 +26,13 @@ class Expense(models.Model):
     expense_type = models.CharField(max_length=100, null=True, choices=types)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+
+
+    def save(self, *args, **kwargs):
+        if self.expense_type == "Cash Out":
+            self.amount = -self.amount
+            super().save(*args, **kwargs)
+
+
+    def __str__(self) -> str:
+        return f"{self.expense_type} - {self.amount}"
