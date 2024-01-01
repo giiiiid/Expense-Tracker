@@ -25,4 +25,4 @@ class Expense(models.Model):
     category = models.CharField(max_length=100, null=True, choices=kinds)
     expense_type = models.CharField(max_length=100, null=True, choices=types)
     date_created = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
