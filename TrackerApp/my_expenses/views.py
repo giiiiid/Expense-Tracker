@@ -5,7 +5,7 @@ from .models import Expense
 def homepage(request):
     expenses = Expense.objects.all()
     context = {"expenses":expenses}
-    return render(request, 'index.html', contex)
+    return render(request, 'index.html', context)
 
 
 def download_csv(request):
