@@ -31,7 +31,7 @@ class Expense(models.Model):
     def save(self, *args, **kwargs):
         if self.expense_type == "Cash Out":
             self.amount = -self.amount
-            super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
     def __str__(self) -> str:
