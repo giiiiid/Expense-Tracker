@@ -24,6 +24,10 @@ def homepage(request):
 
     balance = sum_cash_in + sum_cash_out
 
+    net_bal_calc = [i.amount for i in expenses]
+    net_bal = net_bal_calc[0] + sum([i for i in net_bal_calc][1::])
+    print(net_bal)
+
     forms = ExpenseForm(initial={"user":user})
     instance_model = user
     if request.method == "POST":
@@ -31,7 +35,7 @@ def homepage(request):
         if forms.is_valid():
             forms.save()
             return redirect("home")
-
+    print(expenses)
     context = {
             "expenses":expenses, "total_in":sum_cash_in, "total_out":total_out, 
             "balance":balance, "forms":forms

@@ -27,6 +27,8 @@ class Expense(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ["-date_created"]
 
     def save(self, *args, **kwargs):
         if self.type_of_expense == "Cash Out":
