@@ -24,7 +24,6 @@ def homepage(request):
 
     balance = sum_cash_in + sum_cash_out
 
-
     forms = ExpenseForm(initial={"user":user})
     instance_model = user
     if request.method == "POST":
@@ -33,9 +32,10 @@ def homepage(request):
             forms.save()
             return redirect("home")
 
-    context = {"expenses":expenses, "total_in":sum_cash_in, "total_out":total_out, 
-               "balance":balance, "forms":forms
-               }
+    context = {
+            "expenses":expenses, "total_in":sum_cash_in, "total_out":total_out, 
+            "balance":balance, "forms":forms
+            }
     return render(request, 'index.html', context)
 
 
