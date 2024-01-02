@@ -1,11 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Expense
+from .forms import ExpenseForm
 import csv
 from django.http import HttpResponse
 
 # Create your views here.
 def homepage(request):
-    expenses = Expense.objects.all()
+    user = request.user
+    expenses = Expense.objects.filter(user=user)
 
     cash_in = []
     cash_out = []
@@ -22,7 +24,18 @@ def homepage(request):
 
     balance = sum_cash_in + sum_cash_out
 
-    context = {"expenses":expenses, "total_in":sum_cash_in, "total_out":total_out, "balance":balance}
+
+    forms = ExpenseForm(initial={"user":user})
+    instance_model = user
+    if request.method == "POST":
+        forms = ExpenseForm(request.POST)
+        if forms.is_valid():
+            forms.save()
+            return redirect("home")
+
+    context = {"expenses":expenses, "total_in":sum_cash_in, "total_out":total_out, 
+               "balance":balance, "forms":forms
+               }
     return render(request, 'index.html', context)
 
 
