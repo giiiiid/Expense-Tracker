@@ -69,6 +69,11 @@ def download_csv(request):
     user = request.user
     expenses = Expense.objects.filter(user=user)
     for i in expenses:
+        if i.type_of_expense == "Cash In":
+            i.amount = i.amount
+
+        elif i.type_of_expense == "Cash Out":
+            i.amount = -i.amount
         writer.writerow([i.date_created, i.remark, i.category, i.amount, i.type_of_expense])
-    
+            
     return response
