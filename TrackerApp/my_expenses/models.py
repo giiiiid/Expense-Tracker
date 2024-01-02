@@ -30,11 +30,6 @@ class Expense(models.Model):
     class Meta:
         ordering = ["-date_created"]
 
-    def save(self, *args, **kwargs):
-        if self.type_of_expense == "Cash Out":
-            self.amount = -self.amount
-        super().save(*args, **kwargs)
-
 
     def __str__(self) -> str:
         return f"{self.type_of_expense} - {self.amount}"

@@ -14,47 +14,34 @@ def homepage(request):
     cash_out = []
 
     for i in expenses:
-        if i.type_of_expense == "Cash Out":
-           cash_out.append(i.amount)
-        elif i.type_of_expense == "Cash In":
-            cash_in.append(i.amount)
+        if i.type_of_expense == "Cash In":
+           cash_in.append(i.amount)
+        elif i.type_of_expense == "Cash Out":
+            cash_out.append(i.amount)
 
     sum_cash_in = sum([i for i in cash_in])
     sum_cash_out = sum([i for i in cash_out])
     total_out = str(sum_cash_out).strip("-")
 
-    balance = sum_cash_in + sum_cash_out
+    balance = -(sum_cash_out) + sum_cash_in
+
     forms = ExpenseForm(initial={"user":user})
     instance_model = user
     if request.method == "POST":
         forms = ExpenseForm(request.POST)
         if forms.is_valid():
-
-            val=0
-            amt_value = forms.cleaned_data["amount"]
-            val += amt_value
-
             forms.save()
             return redirect("home")
     
-    net_bal_calc = [i.amount for i in expenses]
-    # if amt_value in net_bal_calc:
-    #     net_bal_calc.remove(amt_value)
-    #     val += amt_value
-    net_bal = net_bal_calc[0] + sum([i for i in net_bal_calc][1::])
-    print(net_bal_calc)
-    
-    print(expenses)
     context = {
             "expenses":expenses, "total_in":sum_cash_in, "total_out":total_out, 
-            "balance":balance, "forms":forms, "net_bal":net_bal
+            "balance":balance, "forms":forms
             }
     return render(request, "index.html", context)
 
 
 
-def detail_expense(request, id):
-    user = request.user
+def detail_update_expense(request, id):
     expense = Expense.objects.get(id=id)
 
     if request.method == "POST":
@@ -62,6 +49,7 @@ def detail_expense(request, id):
         if forms.is_valid():
             forms.save()
             return redirect("detail", expense.id)
+        
     else:
         forms = ExpenseForm(instance=expense)
         
@@ -71,17 +59,12 @@ def detail_expense(request, id):
 
 
 
-
-
-
-
-
 def download_csv(request):
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = "attachment; filename=expenses.csv"
 
     writer = csv.writer(response)
-    writer.writerow(["Date", "Remark", "Category", "Amount", "Cash In", "Cash Out"])
+    writer.writerow(["Date", "Remark", "Category", "Amount", "Cash Type"])
 
     user = request.user
     expenses = Expense.objects.filter(user=user)
