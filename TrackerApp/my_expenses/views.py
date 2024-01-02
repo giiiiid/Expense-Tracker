@@ -23,20 +23,17 @@ def homepage(request):
     total_out = str(sum_cash_out).strip("-")
 
     balance = sum_cash_in + sum_cash_out
-    # val = float()
     forms = ExpenseForm(initial={"user":user})
     instance_model = user
     if request.method == "POST":
         forms = ExpenseForm(request.POST)
         if forms.is_valid():
-            forms.save()
 
-            val = 0
+            val=0
             amt_value = forms.cleaned_data["amount"]
             val += amt_value
-            print(type(amt_value))
-            print(val)
-            
+
+            forms.save()
             return redirect("home")
     
     net_bal_calc = [i.amount for i in expenses]
@@ -45,8 +42,7 @@ def homepage(request):
     #     val += amt_value
     net_bal = net_bal_calc[0] + sum([i for i in net_bal_calc][1::])
     print(net_bal_calc)
-    # print(val)
-
+    
     print(expenses)
     context = {
             "expenses":expenses, "total_in":sum_cash_in, "total_out":total_out, 
@@ -54,6 +50,11 @@ def homepage(request):
             }
     return render(request, "index.html", context)
 
+
+
+def detail_expense(request, id):
+    user = request.user
+    expense = Expense.objects.filter(id=id, user=user)
 
 def download_csv(request):
     response = HttpResponse(content_type="text/csv")
