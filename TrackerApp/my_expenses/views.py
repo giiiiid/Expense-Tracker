@@ -23,22 +23,34 @@ def homepage(request):
     total_out = str(sum_cash_out).strip("-")
 
     balance = sum_cash_in + sum_cash_out
-
-    net_bal_calc = [i.amount for i in expenses]
-    net_bal = net_bal_calc[0] + sum([i for i in net_bal_calc][1::])
-    print(net_bal)
-
+    # val = float()
     forms = ExpenseForm(initial={"user":user})
     instance_model = user
     if request.method == "POST":
         forms = ExpenseForm(request.POST)
         if forms.is_valid():
             forms.save()
+
+            val = 0
+            amt_value = forms.cleaned_data["amount"]
+            val += amt_value
+            print(type(amt_value))
+            print(val)
+            
             return redirect("home")
+    
+    net_bal_calc = [i.amount for i in expenses]
+    # if amt_value in net_bal_calc:
+    #     net_bal_calc.remove(amt_value)
+    #     val += amt_value
+    net_bal = net_bal_calc[0] + sum([i for i in net_bal_calc][1::])
+    print(net_bal_calc)
+    # print(val)
+
     print(expenses)
     context = {
             "expenses":expenses, "total_in":sum_cash_in, "total_out":total_out, 
-            "balance":balance, "forms":forms
+            "balance":balance, "forms":forms, "net_bal":net_bal
             }
     return render(request, "index.html", context)
 
