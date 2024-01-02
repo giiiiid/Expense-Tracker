@@ -1,9 +1,9 @@
-<a href="{% url 'download_csv' %}">Export to csv</a>
+<a href="{% url 'download_csv' %}">Export to csv</a><br>
 
 {% for i in expenses %}
-{{i.type_of_expense}} - {{i.amount}}
+{{i.type_of_expense}} - {{i.amount}}<br>
 {% endfor %}
 <br>
-Total - {{total}}<br>
-Total in - {{total_in}}<br>
-Total out - {{total_out}}
+<h4 style="color: rgb(52, 52, 180);">Balance - {{balance}}</h4>
+<h4 style="color: rgb(44, 206, 44);">Total in - {{total_in}}</h4>
+<h4 style="color: red;">Total out - {{total_out}}</h4>

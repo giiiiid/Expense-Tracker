@@ -18,10 +18,11 @@ def homepage(request):
 
     sum_cash_in = sum([i for i in cash_in])
     sum_cash_out = sum([i for i in cash_out])
+    total_out = str(sum_cash_out).strip("-")
 
-    total = sum_cash_in + sum_cash_out
+    balance = sum_cash_in + sum_cash_out
 
-    context = {"expenses":expenses, "total_in":sum_cash_in, "total_out":sum_cash_out, "total":total}
+    context = {"expenses":expenses, "total_in":sum_cash_in, "total_out":total_out, "balance":balance}
     return render(request, 'index.html', context)
 
 
