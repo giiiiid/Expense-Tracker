@@ -36,7 +36,7 @@ def homepage(request):
             "expenses":expenses, "total_in":sum_cash_in, "total_out":total_out, 
             "balance":balance, "forms":forms
             }
-    return render(request, 'index.html', context)
+    return render(request, "index.html", context)
 
 
 def download_csv(request):
@@ -46,7 +46,8 @@ def download_csv(request):
     writer = csv.writer(response)
     writer.writerow(["Date", "Remark", "Category", "Amount", "Cash Type"])
 
-    expenses = Expense.objects.all()
+    user = request.user
+    expenses = Expense.objects.filter(user=user)
     for i in expenses:
         writer.writerow([i.date_created, i.remark, i.category, i.amount, i.type_of_expense])
     
