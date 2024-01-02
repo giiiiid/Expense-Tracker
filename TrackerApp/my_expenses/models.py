@@ -11,7 +11,7 @@ class Expense(models.Model):
         ("Cash Out", "Cash Out")
     )
 
-    types = (
+    project = (
         ("Food", "Food"), 
         ("School", "School"),
         ("Church", "Church"),
@@ -22,17 +22,17 @@ class Expense(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     amount = models.FloatField()
     remark = models.CharField(max_length=200, default="")
-    category = models.CharField(max_length=100, null=True, choices=kinds)
-    expense_type = models.CharField(max_length=100, null=True, choices=types)
+    category = models.CharField(max_length=100, null=True, choices=project)
+    type_of_expense = models.CharField(max_length=100, null=True, choices=kinds)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
 
     def save(self, *args, **kwargs):
-        if self.expense_type == "Cash Out":
+        if self.type_of_expense == "Cash Out":
             self.amount = -self.amount
         super().save(*args, **kwargs)
 
 
     def __str__(self) -> str:
-        return f"{self.expense_type} - {self.amount}"
+        return f"{self.type_of_expense} - {self.amount}"

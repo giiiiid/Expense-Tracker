@@ -1,3 +1,7 @@
 {% for i in expenses %}
-{{i.expense_type}} - {{i.amount}}
+{{i.type_of_expense}} - {{i.amount}}
 {% endfor %}
+<br>
+Total - {{total}}<br>
+Total in - {{total_in}}<br>
+Total out - {{total_out}}
