@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from .models import Expense
 from .forms import ExpenseForm
 import csv
@@ -54,7 +55,26 @@ def homepage(request):
 
 def detail_expense(request, id):
     user = request.user
-    expense = Expense.objects.filter(id=id, user=user)
+    expense = Expense.objects.get(id=id)
+
+    if request.method == "POST":
+        forms = ExpenseForm(request.POST, instance=expense)
+        if forms.is_valid():
+            forms.save()
+            return redirect("detail", expense.id)
+    else:
+        forms = ExpenseForm(instance=expense)
+        
+    context = {"expense":expense, "forms":forms}
+    return render(request, "detail.html", context)
+
+
+
+
+
+
+
+
 
 def download_csv(request):
     response = HttpResponse(content_type="text/csv")

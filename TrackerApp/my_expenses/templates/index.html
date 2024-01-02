@@ -6,7 +6,10 @@
 
 <div>
     {% for i in expenses %}
-    {{i.remark}} - {{i.amount}}<br>
+    <a href="{% url 'detail' i.id %}" style="text-decoration: none;">
+    {{i.remark}} - {{i.amount}}
+    </a>
+    <br>
     {% endfor %}
     <br>
 </div>
