@@ -44,7 +44,7 @@ def download_csv(request):
     response["Content-Disposition"] = "attachment; filename=expenses.csv"
 
     writer = csv.writer(response)
-    writer.writerow(["Date", "Remark", "Category", "Amount", "Cash Type"])
+    writer.writerow(["Date", "Remark", "Category", "Amount", "Cash In", "Cash Out"])
 
     user = request.user
     expenses = Expense.objects.filter(user=user)
