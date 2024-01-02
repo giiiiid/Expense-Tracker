@@ -1,3 +1,5 @@
+<a href="{% url 'download_csv' %}">Export to csv</a>
+
 {% for i in expenses %}
 {{i.type_of_expense}} - {{i.amount}}
 {% endfor %}

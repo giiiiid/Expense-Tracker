@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from .models import Expense
+import csv
+from django.http import HttpResponse
 
 # Create your views here.
 def homepage(request):
@@ -16,7 +18,7 @@ def homepage(request):
 
     sum_cash_in = sum([i for i in cash_in])
     sum_cash_out = sum([i for i in cash_out])
-    
+
     total = sum_cash_in + sum_cash_out
 
     context = {"expenses":expenses, "total_in":sum_cash_in, "total_out":sum_cash_out, "total":total}
@@ -24,4 +26,18 @@ def homepage(request):
 
 
 def download_csv(request):
-    return "Download csv"
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = "attachment; filename=expenses.csv"
+
+    writer = csv.writer(response)
+    writer.writerow(["Date", "Remark", "Category", "Amount", "Cash Type"])
+
+    expenses = Expense.objects.all()
+    for i in expenses:
+        if i.type_of_expense == "Cash Out":
+            i.amount = -i.amount
+        elif i.type_of_expense == "Cash In":
+            i.amount = i.amount
+        writer.writerow([i.date_created, i.remark, i.category, i.amount, i.type_of_expense])
+    
+    return response
