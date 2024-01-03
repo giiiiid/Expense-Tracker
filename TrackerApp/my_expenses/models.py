@@ -4,6 +4,13 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+class Book(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self) -> str:
+        return self.name
+    
+
 class Expense(models.Model):
 
     kinds = (
@@ -11,18 +18,18 @@ class Expense(models.Model):
         ("Cash Out", "Cash Out")
     )
 
-    project = (
-        ("Food", "Food"), 
-        ("School", "School"),
-        ("Church", "Church"),
-        ("Personal", "Personal")
-    )
+    # project = (
+    #     ("Food", "Food"), 
+    #     ("School", "School"),
+    #     ("Church", "Church"),
+    #     ("Personal", "Personal")
+    # )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     amount = models.FloatField()
     remark = models.CharField(max_length=200, default="")
-    category = models.CharField(max_length=100, null=True, choices=project)
+    project = models.ForeignKey(Book, null=True, on_delete=models.SET_NULL)
     type_of_expense = models.CharField(max_length=100, null=True, choices=kinds)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)

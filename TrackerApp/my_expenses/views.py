@@ -1,14 +1,21 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import Expense
+from .models import Expense, Book
 from .forms import ExpenseForm
 import csv
 
 
 # Create your views here.
-def homepage(request):
+def books(request):
+    books = Book.objects.all()
+
+    context = {"books":books}
+    return render(request, "base.html", context)
+
+def project_expenses(request, name):
     user = request.user
-    expenses = Expense.objects.filter(user=user)
+    book = Book.objects.get(name=name)
+    expenses = book.expense_set.all()
 
     cash_in = []
     cash_out = []
@@ -31,7 +38,7 @@ def homepage(request):
         forms = ExpenseForm(request.POST)
         if forms.is_valid():
             forms.save()
-            return redirect("home")
+            return redirect("book_expense", book.name)
     
     context = {
             "expenses":expenses, "total_in":sum_cash_in, "total_out":total_out, 
@@ -48,7 +55,7 @@ def detail_update_expense(request, id):
         forms = ExpenseForm(request.POST, instance=expense)
         if forms.is_valid():
             forms.save()
-            return redirect("home")
+            return redirect("book_expense", expense.project.name)
         
     else:
         forms = ExpenseForm(instance=expense)
@@ -63,7 +70,7 @@ def delete_expense(request, id):
 
     if request.method == "POST":
         expense.delete()
-        return redirect("home")
+        return redirect("book_expense", expense.project.name)
     return render(request, "delete.html")
 
 
