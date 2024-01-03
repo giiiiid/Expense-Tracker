@@ -24,7 +24,7 @@
                 <a href="{% url 'detail' i.id %}">Update</a>
             </small>
             <small>
-                <a href="">Delete</a>
+                <a href="{% url 'delete' i.id %}">Delete</a>
             </small>
         </div>
         <h4>{{i.amount}} - {{i.remark}} - {{i.type_of_expense}}</h4>

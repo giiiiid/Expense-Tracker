@@ -48,13 +48,24 @@ def detail_update_expense(request, id):
         forms = ExpenseForm(request.POST, instance=expense)
         if forms.is_valid():
             forms.save()
-            return redirect("detail", expense.id)
+            return redirect("home")
         
     else:
         forms = ExpenseForm(instance=expense)
         
     context = {"expense":expense, "forms":forms}
     return render(request, "detail.html", context)
+
+
+
+def delete_expense(request, id):
+    expense = Expense.objects.get(id=id)
+
+    if request.method == "POST":
+        expense.delete()
+        return redirect("home")
+    return render(request, "delete.html")
+
 
 
 
