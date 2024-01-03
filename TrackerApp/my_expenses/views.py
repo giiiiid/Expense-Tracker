@@ -23,7 +23,7 @@ def books(request):
 def project_expenses(request, name):
     user = request.user
     book = Book.objects.get(name=name)
-    expenses = book.expense_set.all()
+    expenses = book.expense_set.filter(user=user)
 
     cash_in = []
     cash_out = []
