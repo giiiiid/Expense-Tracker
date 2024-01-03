@@ -32,7 +32,7 @@ def project_expenses(request, name):
 
     balance = -(sum_cash_out) + sum_cash_in
 
-    forms = ExpenseForm(initial={"user":user})
+    forms = ExpenseForm(initial={"user":user, "project":book})
     instance_model = user
     if request.method == "POST":
         forms = ExpenseForm(request.POST)
@@ -76,7 +76,7 @@ def delete_expense(request, id):
 
 
 
-def download_csv(request):
+def download_csv(request, name):
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = "attachment; filename=expenses.csv"
 
@@ -84,13 +84,15 @@ def download_csv(request):
     writer.writerow(["Date", "Remark", "Category", "Amount", "Cash Type"])
 
     user = request.user
-    expenses = Expense.objects.filter(user=user)
+    book = Book.objects.get(name=name)
+    expenses = book.expense_set.all()
+
     for i in expenses:
         if i.type_of_expense == "Cash In":
             i.amount = i.amount
 
         elif i.type_of_expense == "Cash Out":
             i.amount = -i.amount
-        writer.writerow([i.date_created, i.remark, i.category, i.amount, i.type_of_expense])
+        writer.writerow([i.date_created, i.remark, i.amount, i.type_of_expense])
 
     return response

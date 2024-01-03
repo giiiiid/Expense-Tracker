@@ -9,7 +9,7 @@
 <body>
     
 
-    <a href="{% url 'download_csv' %}">Export to csv</a><br>
+    <a href="{% url 'download_csv' expenses %}">Export to csv</a><br>
 
     <h4 style="color: rgb(52, 52, 180);">Net Balance - {{balance}}</h4>
     <h4 style="color: rgb(44, 206, 44);">Total In(+) - {{total_in}}</h4>
@@ -34,7 +34,6 @@
             </small>
         </div>
         <h4>{{i.amount}} - {{i.remark}} - {{i.type_of_expense}}
-            {{i.id}}
         </h4>
         </div>
     </article>
