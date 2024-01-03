@@ -15,6 +15,12 @@
     <h4 style="color: rgb(44, 206, 44);">Total In(+) - {{total_in}}</h4>
     <h4 style="color: red;">Total Out(-) - {{total_out}}</h4>
 
+    <form method="POST">{% csrf_token %}
+        {{forms}}
+        <button type="submit">Submit</button>
+    </form><br>
+
+
     {% for i in expenses %}
     <article class="media content-section">
         <div class="media-body">
@@ -32,11 +38,6 @@
     </article>
     {% endfor %}
 
-
-    <form method="POST">{% csrf_token %}
-        {{forms}}
-        <button type="submit">Submit</button>
-    </form>
 
 </body>
 </html>
