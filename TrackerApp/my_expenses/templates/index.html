@@ -33,7 +33,9 @@
                 <a href="{% url 'delete' i.id %}">Delete</a>
             </small>
         </div>
-        <h4>{{i.amount}} - {{i.remark}} - {{i.type_of_expense}}</h4>
+        <h4>{{i.amount}} - {{i.remark}} - {{i.type_of_expense}}
+            {{i.id}}
+        </h4>
         </div>
     </article>
     {% endfor %}
