@@ -6,7 +6,7 @@ from ..models import Expense
 from .serializers import ExpenseSerializer
     
 
-class ExpenseList(APIView):
+class ExpenseCreateList(APIView):
     serializer_class = ExpenseSerializer
 
     def get(self, request):
