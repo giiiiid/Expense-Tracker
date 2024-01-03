@@ -8,10 +8,17 @@
 <body>
     
     {% for book in books %}
+    <h4>
     <a href="{% url 'book_expense' book.name %}">
         {{book.name}}
     </a>
+    </h4>
     {% endfor%}
+
+    <form  method="POST">{% csrf_token %}
+        {{forms}}
+        <button type="submit">Add Book</button>
+    </form>
 
 </body>
 </html>

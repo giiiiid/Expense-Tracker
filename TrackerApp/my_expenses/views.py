@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Expense, Book
-from .forms import ExpenseForm
+from .forms import ExpenseForm, BookForm
 import csv
 
 
@@ -9,8 +9,16 @@ import csv
 def books(request):
     books = Book.objects.all()
 
-    context = {"books":books}
-    return render(request, "base.html", context)
+    if request.method == "POST":
+        forms = BookForm(request.POST)
+        if forms.is_valid():
+            forms.save()
+            return redirect("books")
+    else:
+        forms = BookForm()
+
+    context = {"books":books, "forms":forms}
+    return render(request, "books.html", context)
 
 def project_expenses(request, name):
     user = request.user
