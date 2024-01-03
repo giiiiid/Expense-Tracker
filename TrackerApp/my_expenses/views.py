@@ -7,7 +7,8 @@ import csv
 
 # Create your views here.
 def books(request):
-    books = Book.objects.all()
+    user = request.user
+    books = Book.objects.filter(user=user)
 
     if request.method == "POST":
         forms = BookForm(request.POST)

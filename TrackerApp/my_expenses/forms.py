@@ -13,3 +13,4 @@ class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = "__all__"
+        widgets = {"user":forms.HiddenInput()}
