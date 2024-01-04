@@ -8,8 +8,9 @@
 </head>
 <body>
     
-
-    <a href="{% url 'download_csv' expenses %}">Export to csv</a><br>
+    {% for i in expenses %}
+    <a href="{% url 'download_csv' i.project.name %}">Export to csv</a><br>
+    {% endfor %}
 
     <h4 style="color: rgb(52, 52, 180);">Net Balance - {{balance}}</h4>
     <h4 style="color: rgb(44, 206, 44);">Total In(+) - {{total_in}}</h4>
@@ -20,8 +21,8 @@
         <button type="submit">Submit</button>
     </form><br>
 
-
     {% for i in expenses %}
+    
     <article class="media content-section">
         <div class="media-body">
         <div class="article-metadata">

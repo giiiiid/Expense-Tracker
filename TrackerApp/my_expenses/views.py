@@ -16,7 +16,7 @@ def books(request):
             forms.save()
             return redirect("books")
     else:
-        forms = BookForm()
+        forms = BookForm(initial={"user":user})
 
     context = {"books":books, "forms":forms}
     return render(request, "books.html", context)
@@ -94,7 +94,7 @@ def download_csv(request, name):
 
     user = request.user
     book = Book.objects.get(name=name)
-    expenses = book.expense_set.all()
+    expenses = book.expense_set.filter(user=user)
 
     for i in expenses:
         if i.type_of_expense == "Cash In":
