@@ -87,14 +87,15 @@ def delete_expense(request, id):
 
 def download_csv(request, name):
     response = HttpResponse(content_type="text/csv")
-    response["Content-Disposition"] = "attachment; filename=expenses.csv"
+    response["Content-Disposition"] = f"attachment; filename={name}.csv"
 
     writer = csv.writer(response)
     writer.writerow(["Date", "Remark", "Category", "Amount", "Cash Type"])
 
     user = request.user
     book = Book.objects.get(name=name)
-    expenses = book.expense_set.filter(user=user)
+    # expenses = book.expense_set.filter(user=user)
+    expenses = Expense.objects.filter(user=user, project=book)
 
     for i in expenses:
         if i.type_of_expense == "Cash In":
