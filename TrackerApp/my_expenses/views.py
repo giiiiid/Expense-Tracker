@@ -94,8 +94,7 @@ def download_csv(request, name):
 
     user = request.user
     book = Book.objects.get(name=name)
-    # expenses = book.expense_set.filter(user=user)
-    expenses = Expense.objects.filter(user=user, project=book)
+    expenses = book.expense_set.filter(user=user)
 
     for i in expenses:
         if i.type_of_expense == "Cash In":
