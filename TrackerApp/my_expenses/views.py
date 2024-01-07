@@ -21,6 +21,8 @@ def books(request):
     context = {"books":books, "forms":forms}
     return render(request, "books.html", context)
 
+
+
 def project_expenses(request, name):
     user = request.user
     book = Book.objects.get(name=name)
