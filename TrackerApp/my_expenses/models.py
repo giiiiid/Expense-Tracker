@@ -19,13 +19,6 @@ class Expense(models.Model):
         ("Cash Out", "Cash Out")
     )
 
-    # project = (
-    #     ("Food", "Food"), 
-    #     ("School", "School"),
-    #     ("Church", "Church"),
-    #     ("Personal", "Personal")
-    # )
-
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     amount = models.FloatField()
